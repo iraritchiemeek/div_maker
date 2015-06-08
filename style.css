@@ -1,0 +1,21 @@
+html, body {
+	height: 100%;
+	width: 100%;
+	position: relative;
+}
+
+#container {
+	font-family: monospace;
+	background-color: #8BD3F4;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+.point {
+	position: absolute !important;
+	width: 5px;
+	height: 5px;
+	background: red;
+	border-radius: 50px;
+}
