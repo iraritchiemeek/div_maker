@@ -2,10 +2,10 @@ function Shape() {
 	this.positions = []
 	this.width = 0
 	this.height = 0
-	this.hor = []
-	this.vert = []
-	this.top=[]
-	this.left=[]
+	this.topLeft= 0
+	this.topRight= 0
+	this.bottomLeft= 0
+	this.bottomRight= 0
 }
 
 Shape.prototype.addPoint = function(id) {
@@ -13,7 +13,6 @@ Shape.prototype.addPoint = function(id) {
 };
 
 Shape.prototype.positionPoint = function(x, y) {
-	console.log(x, y)
 	$(".point").last().css({top: y, left: x})
 };
 
@@ -34,22 +33,36 @@ Shape.prototype.sizeSquare = function(width, height) {
 };
 
 Shape.prototype.getSize = function(positions) {
-	this.height = positions[2] - positions[0]
-	this.width = positions[3] - positions[1]
+	console.log(positions)
+	this.height = positions["bottomRight"]["top"] - positions["topLeft"]["top"]
+	this.width = positions["topLeft"]["left"] - positions["bottomRight"]["left"]
 	return [this.width,this.height]
 };
 
 Shape.prototype.alignSquare = function(positions) {
 	var that = this
+	console.log(positions)
 	$.each(positions, function(index, value) {
-		that.top.push(value["top"])
-		that.left.push(value["left"])
+		if (index === 0) {
+			that.topLeft = value
+			that.topRight = value
+			that.bottomLeft = value
+			that.bottomRight = value
+		} else if (value.top < that.topLeft.top && value.left < that.topLeft.left) {
+			that.topLeft = value
+		} else if (value.top < that.topRight.top && value.left > that.topRight.left) {
+			that.topRight = value
+		} else if (value.top > that.topLeft.top && value.left < that.bottomRight.left) {
+			that.bottomLeft = value
+		} else {
+			that.bottomRight = value
+		} 
 	})
-	return [Math.min.apply(Math,this.top), Math.min.apply(Math, this.left), Math.max.apply(Math,this.top), Math.max.apply(Math,this.left)]
+	return {"topLeft":this.topLeft, "topRight":this.topRight, "bottomLeft":this.bottomLeft, "bottomRight":this.bottomRight }
 };
 
 Shape.prototype.positionShape = function(positions) {
-	var top = (positions[0] + positions[2])/2
-	var left = (positions[1] + positions[3])/2
+	var top = (positions[0][0] + positions[0][1])/2
+	var left = (positions[1][3] + positions[1][2])/2
 	$(".shape").last().css({top: top, left: left})
 };
