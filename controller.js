@@ -12,6 +12,7 @@ $(document).ready(function() {
 			shape.addPoint(pointID)
 			shape.positionPoint(x, y)
 		} else {
+			shape.deprecation()
 			shapeID += 1
 			var positions = shape.getPointsPos()
 			var alignedPos = shape.alignSquare(positions)

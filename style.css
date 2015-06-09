@@ -23,4 +23,6 @@ html, body {
 .shape {
 	position: absolute !important;
 	background: red;
+	background-size: 70px 70px;
+	background-image: url('https://www.mind-it.info/wp-content/uploads/2014/09/Hypnotoad.gif');
 }
